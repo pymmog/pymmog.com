@@ -1,0 +1,8 @@
+{
+    "spotify_client_id": "YOUR_SPOTIFY_CLIENT_ID",
+    "spotify_client_secret": "YOUR_SPOTIFY_CLIENT_SECRET",
+    "spotify_refresh_token": "YOUR_SPOTIFY_REFRESH_TOKEN",
+    "steam_api_key": "YOUR_STEAM_API_KEY",
+    "steam_id": "YOUR_STEAM_64BIT_ID",
+    "output_path": "/var/www/html/index.html"
+}
