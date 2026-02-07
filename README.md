@@ -91,7 +91,7 @@ Spotify tokens are cached and refreshed automatically.
 All styles, layout, and social links live in `template.html`. The Python script only does data fetching and fills in these placeholders:
 
 | Placeholder | Content |
-|—|—|
+|-|-|
 | `{{SPOTIFY_STATUS}}` | NOW PLAYING / PAUSED / LAST PLAYED / IDLE |
 | `{{SPOTIFY_BODY}}` | Track, artist, album, progress bar |
 | `{{STEAM_STATUS}}` | IN-GAME / LAST PLAYED / ONLINE / OFFLINE |
