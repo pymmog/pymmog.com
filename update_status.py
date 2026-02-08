@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Status page updater — polls Spotify + Steam, fills in template.html,
+Status page updater -- polls Spotify + Steam, fills in template.html,
 and writes the result to the nginx web root.
 
 Run via cron every 1-2 minutes.
@@ -148,7 +148,7 @@ def get_spotify_status(cfg):
             "last_played": False,
         }
 
-    # Nothing currently playing — try recently played
+    # Nothing currently playing -- try recently played
     req = urllib.request.Request(
         "https://api.spotify.com/v1/me/player/recently-played?limit=1",
         headers={"Authorization": f"Bearer {token}"},
@@ -215,28 +215,32 @@ def get_steam_status(cfg):
     state = state_map.get(player.get("personastate", 0), "Offline")
     game = player.get("gameextrainfo")
 
-    # If not currently in a game, try to get the most recently played game
+    # If not currently in a game, get the most recently played game
+    # using GetOwnedGames which has rtime_last_played timestamps
     last_played_game = None
     if not game:
-        recent_params = urllib.parse.urlencode(
+        owned_params = urllib.parse.urlencode(
             {
                 "key": cfg["steam_api_key"],
                 "steamid": cfg["steam_id"],
-                "count": 1,
+                "include_appinfo": 1,
+                "include_played_free_games": 1,
                 "format": "json",
             }
         )
-        recent_url = f"https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?{recent_params}"
+        owned_url = f"https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?{owned_params}"
 
         try:
-            req = urllib.request.Request(recent_url)
+            req = urllib.request.Request(owned_url)
             with urllib.request.urlopen(req) as resp:
-                recent_data = json.loads(resp.read().decode())
-            games = recent_data.get("response", {}).get("games", [])
+                owned_data = json.loads(resp.read().decode())
+            games = owned_data.get("response", {}).get("games", [])
             if games:
+                # Sort by rtime_last_played descending to get the most recent
+                games.sort(key=lambda g: g.get("rtime_last_played", 0), reverse=True)
                 last_played_game = games[0].get("name")
         except urllib.error.URLError as e:
-            print(f"[steam] recently-played error: {e}", file=sys.stderr)
+            print(f"[steam] owned-games error: {e}", file=sys.stderr)
 
     return {
         "state": state,
