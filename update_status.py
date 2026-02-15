@@ -260,25 +260,25 @@ def build_placeholders(spotify, steam):
     if spotify and spotify["is_playing"]:
         p["SPOTIFY_STATUS"] = '<span class="blink">▶</span> NOW PLAYING'
         p["SPOTIFY_BODY"] = (
-            f"    Track   : {html_esc(spotify['track'])}\n"
-            f"    Artist  : {html_esc(spotify['artists'])}\n"
-            f"    Album   : {html_esc(spotify['album'])}\n"
-            f"    Time    : {fmt_ms(spotify['progress_ms'])} / {fmt_ms(spotify['duration_ms'])}\n"
+            f"    Track: {html_esc(spotify['track'])}\n"
+            f"    Artist: {html_esc(spotify['artists'])}\n"
+            f"    Album: {html_esc(spotify['album'])}\n"
+            f"    Time: {fmt_ms(spotify['progress_ms'])} / {fmt_ms(spotify['duration_ms'])}\n"
             f"    [{progress_bar(spotify['progress_ms'], spotify['duration_ms'])}]"
         )
     elif spotify and not spotify["is_playing"] and not spotify.get("last_played"):
         p["SPOTIFY_STATUS"] = '<span class="muted">⏸</span> PAUSED'
         p["SPOTIFY_BODY"] = (
-            f"    Track   : {html_esc(spotify['track'])}\n"
-            f"    Artist  : {html_esc(spotify['artists'])}\n"
-            f"    Album   : {html_esc(spotify['album'])}"
+            f"    Track: {html_esc(spotify['track'])}\n"
+            f"    Artist: {html_esc(spotify['artists'])}\n"
+            f"    Album: {html_esc(spotify['album'])}"
         )
     elif spotify and spotify.get("last_played"):
         p["SPOTIFY_STATUS"] = '<span class="muted">■</span> LAST PLAYED'
         p["SPOTIFY_BODY"] = (
-            f"    Track   : {html_esc(spotify['track'])}\n"
-            f"    Artist  : {html_esc(spotify['artists'])}\n"
-            f"    Album   : {html_esc(spotify['album'])}"
+            f"    Track: {html_esc(spotify['track'])}\n"
+            f"    Artist: {html_esc(spotify['artists'])}\n"
+            f"    Album: {html_esc(spotify['album'])}"
         )
     else:
         p["SPOTIFY_STATUS"] = '<span class="muted">■</span> IDLE'
@@ -289,12 +289,12 @@ def build_placeholders(spotify, steam):
         if steam["game"]:
             p["STEAM_STATUS"] = '<span class="steam-playing blink">▶</span> IN-GAME'
             p["STEAM_BODY"] = (
-                f'    Playing : <span class="hl">{html_esc(steam["game"])}</span>'
+                f'    Playing: <span class="hl">{html_esc(steam["game"])}</span>'
             )
         elif steam.get("last_played_game"):
             p["STEAM_STATUS"] = '<span class="muted">■</span> LAST PLAYED'
             p["STEAM_BODY"] = (
-                f"    Game    : {html_esc(steam['last_played_game'])}"
+                f"    Game: {html_esc(steam['last_played_game'])}"
             )
         else:
             cls = "online" if steam["state"] == "Online" else "muted"
