@@ -262,9 +262,7 @@ def build_placeholders(spotify, steam):
         p["SPOTIFY_BODY"] = (
             f"    Track: {html_esc(spotify['track'])}\n"
             f"    Artist: {html_esc(spotify['artists'])}\n"
-            f"    Album: {html_esc(spotify['album'])}\n"
-            f"    Time: {fmt_ms(spotify['progress_ms'])} / {fmt_ms(spotify['duration_ms'])}\n"
-            f"    [{progress_bar(spotify['progress_ms'], spotify['duration_ms'])}]"
+            f"    Album: {html_esc(spotify['album'])}\n"            
         )
     elif spotify and not spotify["is_playing"] and not spotify.get("last_played"):
         p["SPOTIFY_STATUS"] = '<span class="muted">⏸</span> PAUSED'
